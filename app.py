@@ -242,26 +242,32 @@ def detect():
             file.save(save_path)
 
             try:
-                from ultralytics import YOLO
+                import numpy as np
+                import tensorflow as tf
+                from tensorflow.keras.applications import MobileNetV2
+                from tensorflow.keras.applications.mobilenet_v2 import preprocess_input, decode_predictions
+                from tensorflow.keras.utils import load_img, img_to_array
 
-                # model ilk çalıştırmada otomatik indirilir
-                model = YOLO('yolov8n.pt')
-                results = model(save_path, verbose=False)
+                # model ilk çalıştırmada otomatik indirilir (~14mb)
+                model = MobileNetV2(weights='imagenet')
+
+                img = load_img(save_path, target_size=(224, 224))
+                img_array = img_to_array(img)
+                img_array = np.expand_dims(img_array, axis=0)
+                img_array = preprocess_input(img_array)
+
+                raw = model.predict(img_array, verbose=0)
+                decoded = decode_predictions(raw, top=5)[0]
 
                 predictions = []
-                for r in results:
-                    for box in r.boxes:
-                        cls_id = int(box.cls)
-                        confidence = round(float(box.conf) * 100, 2)
-                        name = model.names[cls_id]
-                        predictions.append({
-                            'name': name,
-                            'confidence': confidence
-                        })
+                for item in decoded:
+                    predictions.append({
+                        'name': item[1].replace('_', ' '),
+                        'confidence': round(float(item[2]) * 100, 2)
+                    })
 
-                # print(predictions)  # debug için
+                # print(predictions)  # test sırasında açtım
 
-                # veritabanına kaydet
                 log = DetectionLog(
                     image_name=filename,
                     result_json=json.dumps(predictions, ensure_ascii=False)
@@ -272,7 +278,7 @@ def detect():
                 image_path = 'uploads/' + filename
 
             except ImportError:
-                error_msg = "ultralytics kütüphanesi kurulu değil. Terminalde: pip install ultralytics"
+                error_msg = "tensorflow kurulu değil. Terminalde: pip install tensorflow"
             except Exception as e:
                 error_msg = f"Hata oluştu: {str(e)}"
                 # print(e)
