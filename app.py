@@ -258,6 +258,9 @@ def detect():
                     time.sleep(10)
                     response = req.post(HF_URL, data=img_data, timeout=30)
 
+                if response.status_code != 200:
+                    raise Exception(f"API Hatası (Kod: {response.status_code}): {response.text}")
+
                 raw_results = response.json()
 
                 # print(raw_results)  # test sırasında açtım
