@@ -242,32 +242,35 @@ def detect():
             file.save(save_path)
 
             try:
-                import numpy as np
-                import tensorflow as tf
-                from tensorflow.keras.applications import MobileNetV2
-                from tensorflow.keras.applications.mobilenet_v2 import preprocess_input, decode_predictions
-                from tensorflow.keras.utils import load_img, img_to_array
+                import requests as req
 
-                # model ilk çalıştırmada otomatik indirilir (~14mb)
-                model = MobileNetV2(weights='imagenet')
+                # huggingface ücretsiz inference api ile sınıflandırma
+                HF_URL = "https://api-inference.huggingface.co/models/google/mobilenet_v2_1.0_224"
 
-                img = load_img(save_path, target_size=(224, 224))
-                img_array = img_to_array(img)
-                img_array = np.expand_dims(img_array, axis=0)
-                img_array = preprocess_input(img_array)
+                with open(save_path, "rb") as img_file:
+                    img_data = img_file.read()
 
-                raw = model.predict(img_array, verbose=0)
-                decoded = decode_predictions(raw, top=5)[0]
+                response = req.post(HF_URL, data=img_data, timeout=30)
+
+                # model henüz yüklenmediyse biraz bekle ve tekrar dene
+                if response.status_code == 503:
+                    import time
+                    time.sleep(10)
+                    response = req.post(HF_URL, data=img_data, timeout=30)
+
+                raw_results = response.json()
+
+                # print(raw_results)  # test sırasında açtım
 
                 predictions = []
-                for item in decoded:
-                    predictions.append({
-                        'name': item[1].replace('_', ' '),
-                        'confidence': round(float(item[2]) * 100, 2)
-                    })
+                if isinstance(raw_results, list):
+                    for item in raw_results[:5]:
+                        predictions.append({
+                            'name': item.get('label', 'bilinmiyor').replace('_', ' '),
+                            'confidence': round(float(item.get('score', 0)) * 100, 2)
+                        })
 
-                # print(predictions)  # test sırasında açtım
-
+                # veritabanına kaydet
                 log = DetectionLog(
                     image_name=filename,
                     result_json=json.dumps(predictions, ensure_ascii=False)
@@ -277,8 +280,6 @@ def detect():
 
                 image_path = 'uploads/' + filename
 
-            except ImportError:
-                error_msg = "tensorflow kurulu değil. Terminalde: pip install tensorflow"
             except Exception as e:
                 error_msg = f"Hata oluştu: {str(e)}"
                 # print(e)
