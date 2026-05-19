@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Python Quiz{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="{{ url_for('index') }}" class="logo">🐍 PyQuiz</a>
+            {% if session.get('username') %}
+            <a href="{{ url_for('quiz') }}">Sınav</a>
+            <a href="{{ url_for('detect') }}">Görsel Algılama</a>
+            {% endif %}
+        </div>
+
+        <div class="nav-right">
+            <!-- skorlar sağ üst köşede gösteriliyor -->
+            <div class="score-box">
+                <span class="score-label">🌍 En Yüksek:</span>
+                <span class="score-val">{{ global_best }} / 10</span>
+            </div>
+            {% if session.get('username') %}
+            <div class="score-box">
+                <span class="score-label">👤 Senin En İyi:</span>
+                <span class="score-val">{{ user_best }} / 10</span>
+            </div>
+            <span class="user-info">{{ session.get('username') }}</span>
+            <a href="{{ url_for('logout') }}" class="btn-logout">Çıkış</a>
+            {% endif %}
+        </div>
+    </nav>
+</header>
+
+<main class="container">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="alert">{{ msg }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    <div class="footer-content">
+        <p><strong>Geliştirici:</strong> Emre Gürsanç &nbsp;|&nbsp; Hacettepe Üniversitesi BÖTE &nbsp;|&nbsp; Python Pro Eğitmen Adayı</p>
+        <p>Flask + SQLAlchemy + ImageAI ile geliştirilmiştir &nbsp;|&nbsp; 2026</p>
+    </div>
+</footer>
+
+</body>
+</html>

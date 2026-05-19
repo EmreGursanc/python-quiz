@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Görsel Algılama - PyQuiz{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>📷 Görsel Nesne Algılama</h2>
+    <p class="subtitle">Bir görsel yükleyin, YOLOv3 modeli ile nesneleri tespit edelim.</p>
+
+    <form method="POST" enctype="multipart/form-data" action="{{ url_for('detect') }}">
+        <div class="form-group">
+            <label for="image">Görsel Seç (JPG, PNG)</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+        </div>
+        <button type="submit" class="btn-primary">Analiz Et 🔍</button>
+    </form>
+
+    {% if error_msg %}
+    <div class="alert alert-error">⚠️ {{ error_msg }}</div>
+    {% endif %}
+
+    {% if predictions is not none %}
+    <div class="results-section">
+        <h3>Tespit Sonuçları</h3>
+
+        {% if image_path %}
+        <div class="detected-img">
+            <img src="{{ url_for('static', filename=image_path) }}" alt="Tespit edilen görsel">
+        </div>
+        {% endif %}
+
+        {% if predictions | length == 0 %}
+            <p class="no-result">Hiçbir nesne tespit edilemedi. Farklı bir görsel deneyin.</p>
+        {% else %}
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nesne</th>
+                        <th>Güven Skoru</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in predictions %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>
+                            <div class="confidence-bar">
+                                <div class="bar-fill" style="width: {{ item.confidence }}%"></div>
+                                <span>%{{ item.confidence }}</span>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

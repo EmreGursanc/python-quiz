@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Giriş - PyQuiz{% endblock %}
+
+{% block content %}
+<div class="card center-card">
+    <h1>🐍 Python Bilgi Sınavı</h1>
+    <p class="subtitle">Kullanıcı adınızı girerek sınava başlayın.<br>Daha önce giriş yaptıysanız geçmiş skorunuz görünür.</p>
+
+    <form method="POST" action="{{ url_for('index') }}">
+        <div class="form-group">
+            <label for="username">Kullanıcı Adı</label>
+            <input type="text" id="username" name="username" placeholder="Kullanıcı adınızı girin" required autofocus>
+        </div>
+        <button type="submit" class="btn-primary">Sınava Başla →</button>
+    </form>
+
+    <div class="stats-row">
+        <div class="stat-item">
+            <span class="stat-num">{{ global_best }}</span>
+            <span class="stat-label">Tüm Zamanların En İyisi</span>
+        </div>
+    </div>
+</div>
+{% endblock %}

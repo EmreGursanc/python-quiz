@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Sonuç - PyQuiz{% endblock %}
+
+{% block content %}
+<div class="card center-card">
+    <h2>🎯 Sınav Sonucu</h2>
+    <p class="welcome">Tebrikler, <strong>{{ username }}</strong>!</p>
+
+    <div class="score-display">
+        <div class="big-score">{{ score }} / {{ total }}</div>
+        <div class="score-pct">%{{ (score / total * 100) | int }} Başarı</div>
+    </div>
+
+    {% if score >= total * 0.8 %}
+        <p class="result-msg success">🌟 Harika! Python bilgin çok iyi!</p>
+    {% elif score >= total * 0.5 %}
+        <p class="result-msg medium">👍 Fena değil! Biraz daha çalışabilirsin.</p>
+    {% else %}
+        <p class="result-msg fail">📚 Konuları tekrar gözden geçirmelisin.</p>
+    {% endif %}
+
+    <div class="stats-row">
+        <div class="stat-item">
+            <span class="stat-num">{{ user_best }}</span>
+            <span class="stat-label">Senin En Yüksek Skorun</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-num">{{ global_best }}</span>
+            <span class="stat-label">Tüm Kullanıcılar Arası En Yüksek</span>
+        </div>
+    </div>
+
+    <div class="action-btns">
+        <a href="{{ url_for('quiz') }}" class="btn-primary">🔄 Tekrar Dene</a>
+        <a href="{{ url_for('detect') }}" class="btn-secondary">📷 Görsel Algıla</a>
+    </div>
+</div>
+{% endblock %}

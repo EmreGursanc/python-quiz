@@ -1,0 +1,440 @@
+/* genel ayarlar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* navbar */
+.navbar {
+    background-color: #2c3e50;
+    padding: 12px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-left a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.nav-left a:hover {
+    color: #3498db;
+}
+
+.logo {
+    font-size: 20px !important;
+    font-weight: bold !important;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.score-box {
+    background: rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 13px;
+}
+
+.score-label {
+    color: #bdc3c7;
+    margin-right: 5px;
+}
+
+.score-val {
+    font-weight: bold;
+    color: #f1c40f;
+}
+
+.user-info {
+    font-size: 13px;
+    color: #ecf0f1;
+}
+
+.btn-logout {
+    background: #e74c3c;
+    color: white !important;
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.btn-logout:hover {
+    background: #c0392b;
+}
+
+/* ana içerik */
+main.container {
+    max-width: 900px;
+    width: 100%;
+    margin: 40px auto;
+    padding: 0 20px;
+    flex: 1;
+}
+
+/* kart */
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 35px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.center-card {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+h1, h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #7f8c8d;
+    margin-bottom: 25px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+/* form */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #555;
+}
+
+.form-group input[type="text"],
+.form-group input[type="file"] {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input[type="text"]:focus {
+    border-color: #3498db;
+}
+
+/* butonlar */
+.btn-primary {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 11px 24px;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s;
+}
+
+.btn-primary:hover {
+    background: #2980b9;
+}
+
+.btn-primary.btn-large {
+    padding: 14px 40px;
+    font-size: 16px;
+}
+
+.btn-secondary {
+    background: #ecf0f1;
+    color: #2c3e50;
+    border: none;
+    padding: 11px 24px;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s;
+}
+
+.btn-secondary:hover {
+    background: #bdc3c7;
+}
+
+/* alert */
+.alert {
+    background: #fdecea;
+    color: #c0392b;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    border-left: 4px solid #e74c3c;
+}
+
+.alert-error {
+    margin-top: 20px;
+}
+
+/* soru kartları */
+.quiz-wrapper h2 {
+    margin-bottom: 5px;
+}
+
+.question-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px 25px;
+    margin-bottom: 18px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.07);
+    border-left: 4px solid #3498db;
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.topic-badge {
+    background: #eaf4fb;
+    color: #2980b9;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.q-num {
+    font-size: 12px;
+    color: #999;
+    font-weight: bold;
+}
+
+.question-text {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    line-height: 1.4;
+}
+
+.choices {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.choice-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.15s;
+}
+
+.choice-label:hover {
+    background: #f0f7ff;
+    border-color: #3498db;
+}
+
+.choice-label input[type="radio"] {
+    accent-color: #3498db;
+}
+
+.submit-area {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+/* sonuç sayfası */
+.welcome {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.score-display {
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: white;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 20px;
+}
+
+.big-score {
+    font-size: 52px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.score-pct {
+    font-size: 18px;
+    opacity: 0.85;
+}
+
+.result-msg {
+    font-size: 16px;
+    padding: 12px 20px;
+    border-radius: 7px;
+    margin-bottom: 25px;
+}
+
+.result-msg.success {
+    background: #eafaf1;
+    color: #27ae60;
+}
+
+.result-msg.medium {
+    background: #fef9e7;
+    color: #f39c12;
+}
+
+.result-msg.fail {
+    background: #fdecea;
+    color: #e74c3c;
+}
+
+/* istatistik satırı */
+.stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 20px 0 25px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-num {
+    font-size: 32px;
+    font-weight: bold;
+    color: #3498db;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #999;
+    margin-top: 4px;
+}
+
+.action-btns {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* detect sayfası */
+.results-section {
+    margin-top: 30px;
+}
+
+.results-section h3 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.detected-img {
+    margin-bottom: 20px;
+}
+
+.detected-img img {
+    max-width: 100%;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.results-table th {
+    background: #2c3e50;
+    color: white;
+    padding: 10px 15px;
+    text-align: left;
+}
+
+.results-table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.results-table tr:hover {
+    background: #f8f9fa;
+}
+
+.confidence-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.bar-fill {
+    height: 8px;
+    background: #3498db;
+    border-radius: 4px;
+    min-width: 4px;
+}
+
+.no-result {
+    color: #7f8c8d;
+    font-style: italic;
+    padding: 20px 0;
+}
+
+/* footer */
+footer {
+    background: #2c3e50;
+    color: #bdc3c7;
+    text-align: center;
+    padding: 18px 20px;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+footer strong {
+    color: white;
+}

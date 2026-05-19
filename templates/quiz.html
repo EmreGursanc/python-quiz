@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Sınav - PyQuiz{% endblock %}
+
+{% block content %}
+<div class="quiz-wrapper">
+    <h2>📝 Python Bilgi Sınavı</h2>
+    <p class="subtitle">Aşağıdaki soruları cevaplayın ve gönder butonuna basın.</p>
+
+    <form method="POST" action="{{ url_for('quiz') }}">
+        {% for q in questions %}
+        <div class="question-card">
+            <div class="question-header">
+                <span class="topic-badge">{{ q.topic }}</span>
+                <span class="q-num">Soru {{ loop.index }}</span>
+            </div>
+            <p class="question-text">{{ q.question }}</p>
+            <div class="choices">
+                {% for i in range(q.choices | length) %}
+                <label class="choice-label">
+                    <input type="radio" name="q{{ q.id }}" value="{{ i }}" required>
+                    <span>{{ q.choices[i] }}</span>
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="submit-area">
+            <button type="submit" class="btn-primary btn-large">Sınavı Gönder 🚀</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
